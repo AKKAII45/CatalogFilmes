@@ -48,8 +48,24 @@ getCard = async () => {
     card.appendChild(cardBody);
     cardBody.appendChild(hCardTitle);
     cardBody.appendChild(divDetalhes);
+
+    this.setBtnDetalhes();
+    cardBody.appendChild(this.getBtnDetalhes());
+    
     return card;
 }
+
+setBtnDetalhes= () => {
+    this.btnDetalhes = document.createElement('button');
+    this.btnDetalhes.appendChild(document.createTextNode("Detalhes"));
+    this.btnDetalhes.setAttribute("id", this.id);
+    this.btnDetalhes.setAttribute("class","btnDetalhesFilme");
+}
+
+getBtnDetalhes=()=>{
+    return this.btnDetalhes
+}
+
 
 btnBuscarFilme.onclick = async () => {
     if(inputBuscarFilme.value.length > 0){
@@ -63,16 +79,19 @@ btnBuscarFilme.onclick = async () => {
                      item.imdbID,
                      item.Title,
                      item.Year,
-                     null,
-                     null,
+                     resp.Genre.split(","),
+                     resp.Runtime,
                      item.Poster,
-                     null,
-                     null,
-                     null,
-                     null,
-                     null
-                    );
-                    filmes.push(filme);
+                     resp.Poster,
+                     resp.plot,
+                     resp.Director,
+                     resp.Actors.split(","),
+                     resp.Awards,
+                     resp.imdbRating
+                    )
+
+                    console.log(filme);
+
                 });
                 listarFilmes(filmes);
 
@@ -81,13 +100,29 @@ btnBuscarFilme.onclick = async () => {
     return false;
 }
 
+
+let detalhesFilme = async (id)=>{
+    fetch("http://www.omdbapi.com/?i=tt3896198&apikey=4f0f789b&s="+id)
+    .then((resp)=> resp.json())
+    .then((resp)=>{
+        //Instanciar objeto da Classe filme
+        //Chamar metodo para gerar card com detalhes filme.
+        //Ocultar div #lista-filmes
+    });
+}
+
+
 let listarFilmes = async (filmes) => {
     let listaFilmes = await document.querySelector("#lista-filmes");
     listaFilmes.innerHTML = "";
-    console.log(listaFilmes);
+    //console.log(listaFilmes);
     if(filmes.length > 0) {
         filmes.forEach(async(filme) => {
+            console.log(filme);
             listaFilmes.appendChild(await filme.getCard());
+            filme.getBtnDetalhes().onclick=()=>{
+                detalhesFilme(filme.id);
+            }
         });
     }
 }
