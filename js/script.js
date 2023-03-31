@@ -66,6 +66,18 @@ let listarFilmes = async (filmes) => {
         });
     }
 }
+
+document.querySelector("#btnSalvar").onclick = () =>{
+    SalvarFilmes()
+}
+
+
+
+
+SalvarFilmes = () => {
+    
+}
+
 }
 
 
