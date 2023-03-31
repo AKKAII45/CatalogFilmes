@@ -34,10 +34,9 @@ let detalhesFilme = async (id)=>{
         let filme = new Filme(
             resp.imdbID,
             resp.Title,
-            item.Year,
+            resp.Year,
             resp.Genre.split(","),
             resp.Runtime,
-            item.Poster,
             resp.Poster,
             resp.plot,
             resp.Director,
@@ -46,7 +45,6 @@ let detalhesFilme = async (id)=>{
             resp.imdbRating
         )
         document.querySelector("#mostrar-filme").appendChild(filme.getDetalhesFilme());
-        document.querySelector("lista-filmes").style.display="none";
         document.querySelector("#mostrar-filme").style.display="flex";
     });
 }
@@ -69,3 +67,5 @@ let listarFilmes = async (filmes) => {
     }
 }
 }
+
+
